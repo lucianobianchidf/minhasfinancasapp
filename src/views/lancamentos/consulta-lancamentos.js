@@ -28,7 +28,7 @@ class ConsultaLancamentos extends React.Component{
     }
 
     editar = (id) => {
-        console.log('editando...');
+        this.props.history.push(`/cadastro-lancamentos/${id}`)
     }
 
     abrirConfirmacao = (lancamento) => {
@@ -37,6 +37,22 @@ class ConsultaLancamentos extends React.Component{
     
     cancelarDelecao = () => {
         this.setState({showConfirmDialog: false, lancamentoDeletar: {} })
+    }
+
+    alterarStatus = (lancamento, status) => {
+        this.service.alterarStatus(lancamento.id, status)
+            .then(response => {
+                const lancamentos = this.state.lancamentos;
+                const index = lancamentos.indexOf(lancamento);
+
+                if(index !== -1){
+                    lancamento['status'] = status;
+                    lancamentos[index] = lancamento;
+                    this.setState({lancamento});
+                }
+
+                messages.mensagemSucesso("Status atualizado com sucesso");
+            });
     }
 
     deletar = () => {
@@ -70,7 +86,13 @@ class ConsultaLancamentos extends React.Component{
         this.service
             .consultar(lancamentoFiltro)
             .then( resposta => {
-                this.setState({ lancamentos: resposta.data })
+                const lista = resposta.data;
+
+                if(lista.length < 1){
+                    messages.mensagemAlerta("Nenhum resultado encontrado");
+                }
+
+                this.setState({ lancamentos: lista })
             }).catch( error => {
                 console.log(error)
             })
@@ -117,7 +139,7 @@ class ConsultaLancamentos extends React.Component{
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="bs-component">
-                            <LancamentosTable lancamentos={this.state.lancamentos} deletar={this.abrirConfirmacao} editar={this.editar} />
+                            <LancamentosTable lancamentos={this.state.lancamentos} deletar={this.abrirConfirmacao} editar={this.editar} alterarStatus={this.alterarStatus} />
                         </div>
                     </div>
                 </div>
