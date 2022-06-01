@@ -1,6 +1,7 @@
 import React from 'react';
 import UsuarioService from '../app/service/usuarioService';
 import LocalStorageService from '../app/service/localstorageService';
+import { AuthContext } from '../main/provedorAutenticacao'
 
 class Home extends React.Component{
 
@@ -33,11 +34,11 @@ class Home extends React.Component{
                 <hr className="my-4" />
                 <p>E essa é sua área administrativa, utilize um dos menus ou botões abaixo para navegar pelo sistema.</p>
                 <p className="lead">
-                    <a className="btn btn-primary btn-lg" href="/#/cadastro-usuarios" role="button">
+                    <a className="btn btn-primary btn-lg" href="/cadastro-usuarios" role="button">
                         <i className="fa fa-users"></i>  
                         Cadastrar Usuário
                     </a>
-                    <a className="btn btn-primary btn-lg" href="/#/cadastro-lancamentos" role="button">
+                    <a className="btn btn-primary btn-lg" href="/cadastro-lancamentos" role="button">
                         <i className="fa fa-users"></i>  
                         Cadastrar Lançamento
                     </a>
@@ -46,5 +47,7 @@ class Home extends React.Component{
         )
     }
 }
+
+Home.contextType = AuthContext
 
 export default Home

@@ -5,7 +5,7 @@ import Home from '../views/home'
 import ConsultaLancamentos from '../views/lancamentos/consulta-lancamentos'
 import CadastroLancamentos from '../views/lancamentos/cadastro-lancamentos'
 
-import { Route, Switch, HashRouter, Redirect } from 'react-router-dom'
+import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 import UsuarioService from '../app/service/usuarioService'
 import AuthService from '../app/service/authService'
 
@@ -27,7 +27,7 @@ function RotaAutenticada( {component: Component, ...props} ){
 
 function Rotas() {
     return (
-        <HashRouter>
+        <BrowserRouter>
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/cadastro-usuarios" component={CadastroUsuario} />
@@ -36,7 +36,7 @@ function Rotas() {
                 <RotaAutenticada path="/consulta-lancamentos" component={ConsultaLancamentos} />
                 <RotaAutenticada path="/cadastro-lancamentos/:id?" component={CadastroLancamentos} />
             </Switch>
-        </HashRouter>
+        </BrowserRouter>
     )
 }
 

@@ -5,7 +5,7 @@ function NavbarItem( {render, ...props} ){
     if(render){
         return (
             <li className="nav-item">
-                <a onClick={props.onClick} className="nav-link" href={props.href}>{props.label}</a>
+                <a className="nav-link" href={props.href} onClick={props.onClick}>{props.label}</a>
             </li>
         )
     }else{
