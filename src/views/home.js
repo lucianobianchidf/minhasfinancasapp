@@ -2,6 +2,7 @@ import React from 'react';
 import UsuarioService from '../app/service/usuarioService';
 import LocalStorageService from '../app/service/localstorageService';
 import { AuthContext } from '../main/provedorAutenticacao'
+import { withRouter } from "react-router";
 
 class Home extends React.Component{
 
@@ -50,4 +51,4 @@ class Home extends React.Component{
 
 Home.contextType = AuthContext
 
-export default Home
+export default withRouter(Home)

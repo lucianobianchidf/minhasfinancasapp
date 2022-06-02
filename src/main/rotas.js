@@ -4,15 +4,16 @@ import CadastroUsuario from '../views/cadastroUsuario'
 import Home from '../views/home'
 import ConsultaLancamentos from '../views/lancamentos/consulta-lancamentos'
 import CadastroLancamentos from '../views/lancamentos/cadastro-lancamentos'
+import { AuthConsumer } from './provedorAutenticacao'
 
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 import UsuarioService from '../app/service/usuarioService'
-import AuthService from '../app/service/authService'
 
-function RotaAutenticada( {component: Component, ...props} ){
+function RotaAutenticada( {component: Component, isUsuarioAutenticado, ...props} ){
     return(
         <Route {...props} render={ (componentProps) => {
-            if(AuthService.isUsuarioAutenticado()){
+            console.log("verificando usuario autenticado ", isUsuarioAutenticado)
+            if(isUsuarioAutenticado){
                 return(
                     <Component {...componentProps} />
                 )
@@ -25,19 +26,23 @@ function RotaAutenticada( {component: Component, ...props} ){
     )
 }
 
-function Rotas() {
+function Rotas(props) {
     return (
         <BrowserRouter>
             <Switch>
                 <Route path="/login" component={Login} />
                 <Route path="/cadastro-usuarios" component={CadastroUsuario} />
 
-                <RotaAutenticada path="/home" component={Home} />
-                <RotaAutenticada path="/consulta-lancamentos" component={ConsultaLancamentos} />
-                <RotaAutenticada path="/cadastro-lancamentos/:id?" component={CadastroLancamentos} />
+                <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/home" component={Home} />
+                <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/consulta-lancamentos" component={ConsultaLancamentos} />
+                <RotaAutenticada isUsuarioAutenticado={props.isUsuarioAutenticado} path="/cadastro-lancamentos/:id?" component={CadastroLancamentos} />
             </Switch>
         </BrowserRouter>
     )
 }
 
-export default Rotas
+export default () => (
+    <AuthConsumer>
+        { (context) => (<Rotas isUsuarioAutenticado={context.isAutenticado} />) }
+    </AuthConsumer>
+)
