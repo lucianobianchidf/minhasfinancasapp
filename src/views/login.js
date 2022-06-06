@@ -26,7 +26,7 @@ class Login extends React.Component {
         })
         .then( response => {
             this.context.iniciarSessao(response.data);
-            this.props.history.push({pathname: '/home'})
+            this.props.history.push('/home')
         } ).catch( erro => {
             mensagemErro(erro.response.data);
         } )
